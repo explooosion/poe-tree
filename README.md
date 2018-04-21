@@ -3,7 +3,7 @@ A Passive Skill Tree Planner for Path of Exile.
 
 👉 [DEMO](http://robby570.tw/poe-tree/dist/) (dev)
 
-ps. [httrack](http://robby570.tw/poe-tree/httrack)
+ps. [httrack](https://robby570.tw/poe-tree/httrack/POE/poedb.tw/passive-skill-tree/AAAABAMAAQ%3d%3d.html)
 
 ### API
 
