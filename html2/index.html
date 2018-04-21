@@ -1,0 +1,325 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta property="og:title" content="流亡黯道PoE 天賦樹模擬器" />
+    <meta property="og:description" content="輕鬆快速策劃天賦" />
+    <meta property="og:image" content="http://tw.poeutil.com/images/og/passive_skilltree.jpg" />
+    <title>流亡黯道PoE 天賦樹</title>
+    <style type="text/css">
+        html {
+            width: 100%;
+            height: 100%;
+            font-family: Tahoma, 微软雅黑;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0px;
+            background: #191611;
+            overflow: hidden;
+        }
+
+        canvas {
+            margin: 0px;
+            border: 0px solid #ccc;
+        }
+
+        ul.menu {
+            list-style: none;
+            padding: 0px;
+            margin: 0px;
+        }
+
+        ul.menu li {
+            display: block;
+            position: relative;
+            float: left;
+            border: 0px solid #000
+        }
+
+        ul.menu li ul {
+            display: none;
+        }
+
+        ul.menu li span {
+            display: block;
+            background: #000;
+            padding: 5px 10px 5px 10px;
+            text-decoration: none;
+            white-space: nowrap;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        ul.menu li span:hover {
+            background: #A38D6D;
+        }
+
+        ul.menu li:hover ul {
+            display: block;
+            position: absolute;
+        }
+
+        ul.menu li:hover li {
+            float: none;
+        }
+
+        ul.menu li:hover span {
+            background: #A38D6D;
+        }
+
+        ul.menu li:hover li span:hover {
+            background: #000;
+        }
+
+        div.summary {
+            padding-left: 15px;
+            padding-top: 20px;
+        }
+
+        div.summary ul {
+            padding-left: 20px;
+            margin: 5px 0px 0px 0px;
+        }
+
+        #drop-nav li ul li {
+            border-top: 0px;
+        }
+
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            -webkit-border-radius: 2px;
+            background-color: #232323;
+            border-radius: 2px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            -webkit-border-radius: 2px;
+            border-radius: 2px;
+            background: #787878;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #A1A1A1;
+        }
+
+        div#popupContainer {
+            position: absolute;
+            z-index: 9001;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+        }
+
+        div.blanket {
+            display: block;
+            background-color: #111;
+            opacity: 0.65;
+            filter: alpha(opacity=65);
+            position: relative;
+            z-index: 9002;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+        }
+
+        div.popupDiv {
+            display: table;
+            table-layout: fixed;
+            position: absolute;
+            z-index: 9003;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+        }
+
+        div#popupImport,
+        div#popupShare {
+            background-color: #555;
+            width: 800px;
+            height: 200px;
+        }
+
+        textarea {
+            resize: none;
+        }
+    </style>
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-58180762-3', 'auto');
+        ga('send', 'pageview');
+    </script>
+</head>
+
+<body>
+    <div id="fb-root"></div>
+    <div id="div_canvas" style="position:relative;display:block;width:100%;height:100%;overflow: hidden;">
+        <canvas id="canvas_bg" style="position:absolute; left: 0; top: 0;z-index:0;"></canvas>
+        <canvas id="canvas_links" style="position:absolute; left: 0; top: 0;z-index:1;"></canvas>
+        <canvas id="canvas_nodes" style="position:absolute; left: 0; top: 0;z-index:2;"></canvas>
+    </div>
+    <div id="canvas_tooltip" style="position:absolute;left:0px;top:0px;background:#111;padding:8px;box-shadow: 3px 3px 5px #8E7F6D;border:2px solid #CBB59C;z-index:12;display:none;">
+        <div id="canvas_tooltip_title" style="font-size:18px;font-weight:normal;color:#ccc;"></div>
+        <div style="width: 100%; height: 8px;"></div>
+        <div id="canvas_tooltip_desc" style="font-size:16px;font-weight:normal;color:#ccc;"></div>
+    </div>
+    <div style="display:block;position:absolute;left:0px;top:35px;background:#111;padding-left:5px;padding-right:10px; font-size:16px;font-weight:normal;color:#ccc;overflow-y:auto; max-height: calc(100% - 100px);max-width: 330px;z-index:10; ">
+        <div id="summary" class="summary">
+        </div>
+    </div>
+    <div id="footer" style="position: fixed; bottom:0;right:0;background:#000;z-index:11; padding:4px 8px 2px 8px;font-size:10px;color:#666;border-top-left-radius:5px;">Copyright © 2015 - 2017 Path of Exile Utilities</div>
+    <div id="div_tool" style="width:100%;height:35px;position: fixed; top:0;background:#000;z-index:11;padding:5px;">
+        <div id="div_menu" style="float:left;margin-left: auto;margin-right: auto; ">
+            <ul id="drop-nav" class="menu">
+                <li>
+                    <span id="menu_home" onclick="{window.location = window.location.origin;}">流亡黯道PoE 工具箱</span>
+                </li>
+                <li>
+                    <span id="menu_import" onclick="popup('popupImport');">導入</span>
+                </li>
+                <li>
+                    <span id="menu_share" onclick="popup('popupShare');var share=document.getElementById('textShare');share.value=mySkillTree.getUrl();">分享</span>
+                </li>
+            </ul>
+        </div>
+        <div id="div_char_select" style="margin-left: auto;margin-right: auto; width:340px;">
+            <div style="position: relative;  float: left;">
+                <select id="sel_char">
+                </select>
+            </div>
+            <div id="div_points_used" style="position: relative; float: left; font-size:14px;font-weight:bold;color:#ccc;margin-right: 20px;padding:3px 10px 0px 30px;">
+            </div>
+            <div id="div_ascendency_points_used" style="position: relative; float: left; font-size:14px;font-weight:bold;color:#ccc;margin-right: 20px;padding:3px 10px 0px 10px;">
+            </div>
+        </div>
+        <div id="div_search" style="float:right;padding:5px;padding-right:10px;">
+            <input id="inputSearch" type="text" name="search" style="padding-left:3px;" maxlength="30" placeholder="搜尋" />
+        </div>
+    </div>
+
+    <div id="popupContainer" style="display:none;">
+        <div class="blanket">
+        </div>
+        <div class="popupDiv">
+            <div style="display: table-cell;width:100%;height:100%;vertical-align: middle;text-align: center;">
+                <div id="popupImport" style="display:none;text-align: center;">
+                    <textarea id="textImport" style="width:calc(100% - 12px);height:calc(100% - 50px);padding: 5px;" maxlength="800" placeholder="Paste build link here..."></textarea>
+                    <br/>
+                    <ul class="menu" style="display: inline-block;">
+                        <li>
+                            <span onclick="popup('popupImport');" style="margin:2px;">取消</span>
+                        </li>
+                        <li>
+                            <span onclick="var textImport=document.getElementById('textImport');mySkillTree.parseUrl(textImport.value);mySkillTree.updateBrowserUrl();popup('popupImport');"
+                                style="margin:2px;">導入</span>
+                        </li>
+                    </ul>
+                </div>
+                <div id="popupShare" style="display:none;text-align: center;">
+                    <textarea id="textShare" style="width:calc(100% - 12px);height:calc(100% - 50px);padding: 5px;" onfocus="this.select();this.onmouseup = function() {this.onmouseup = null;return false;};"
+                        maxlength="800"></textarea>
+                    <br/>
+                    <ul class="menu" style="display: inline-block;">
+                        <li>
+                            <span onclick="popup('popupShare');">關閉</span>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="text/javascript" src="scripts/treebase.js"></script>
+    <script type="text/javascript" src="scripts/rbtree.js"></script>
+    <script type="text/javascript" src="scripts/popup.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        var mySkillTree = 0;
+
+        //init combo
+        var charInfo = {
+            0: "貴族",
+            1: "野蠻人",
+            2: "遊俠",
+            3: "女巫",
+            4: "決鬥者",
+            5: "聖堂武僧",
+            6: "暗影刺客"
+        };
+        var sel = document.getElementById('sel_char');
+
+        for (var key in charInfo) {
+            sel.innerHTML += "<option value='" + key + "'>" + charInfo[key] + "</option>";
+        }
+
+        function getSelectedCharId() {
+            return sel.options[sel.selectedIndex].value;
+        }
+
+        sel.onchange = function () {
+            mySkillTree.notifyCharChange(getSelectedCharId());
+        };
+
+        function loadScript(url, callback) {
+
+            var script = document.createElement("script")
+            script.type = "text/javascript";
+
+            if (script.readyState) { //IE
+                script.onreadystatechange = function () {
+                    if (script.readyState == "loaded" ||
+                        script.readyState == "complete") {
+                        script.onreadystatechange = null;
+                        callback();
+                    }
+                };
+            } else { //Others
+                script.onload = function () {
+                    callback();
+                };
+            }
+
+            script.src = url;
+            document.getElementsByTagName("head")[0].appendChild(script);
+        }
+
+        loadScript("scripts/poe_skilltree.js", function () {
+            //initialization code
+            mySkillTree = new skillTree();
+            mySkillTree.charChangeCallback = function (charId) {
+                var opts = sel.options;
+                for (var opt, j = 0; opt = opts[j]; j++) {
+                    if (opt.value == charId) {
+                        sel.selectedIndex = j;
+                        break;
+                    }
+                }
+            };
+            mySkillTree.parseUrl(document.URL);
+        });
+    </script>
+</body>
+
+</html>
