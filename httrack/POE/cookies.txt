@@ -1,0 +1,4 @@
+# HTTrack Website Copier Cookie File
+# This file format is compatible with Netscape cookies
+poedb.tw	TRUE	/	FALSE	1999999999	PHPSESSID	k7nv9clieq36vpnb8rsofv21o3
+
