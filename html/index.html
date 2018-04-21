@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="css/site.css">
+  <!--[if lte IE 6]> <link href="//webcdn.pathofexile.com/css/ie.css?v=50956009ddf3a46f34a689e6807f8c00" media="screen" rel="stylesheet" type="text/css" ><![endif]-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.2/backbone-min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone-relational/0.5.0/backbone-relational.js"></script>
+</head>
+
+<body class="noJS">
+  <script type="text/javascript">
+    document.body.className = document.body.className.replace(/(?:^|\s)noJS(?!\S)/, '');
+  </script>
+  <script type="text/javascript">
+    function touchMenu() {
+      return !Modernizr.touch;
+    }
+  </script>
+
+  <div id="siteContainer">
+    <div id="siteCentered">
+      <div id="mainContainer" class="boxLayout">
+        <div id="mainContainerBg"></div>
+        <div class="layoutBox1 layoutBoxFull defaultTheme">
+          <div class="layoutBoxContent">
+            <div class="padded">
+            </div>
+
+            <div id="passiveSkillTree">
+            </div>
+
+            <style>
+              .button {
+                font: bold 11px Arial;
+                text-decoration: none;
+                background-color: #EEEEEE;
+                color: #333333;
+                padding: 2px 6px 2px 6px;
+                border-top: 1px solid #CCCCCC;
+                border-right: 1px solid #333333;
+                border-bottom: 1px solid #333333;
+                border-left: 1px solid #CCCCCC;
+              }
+            </style>
+
+            <!-- 以下 WEB 元件 -->
+            <div id="passiveSkillTreeControlsContainer">
+              <div id="passiveSkillTreeControls">
+                <div class="poeForm" id="passiveControlsForm">
+                  <div id="skillTreeInfo" class="skillTreeInfo FontinRegular">
+                    <div id="skillPointsInfo" class="skillPointsInfo">
+                      <span class="pointsUsed"></span> /
+                      <span class="totalPoints"></span>
+                    </div>
+                  </div>
+
+                  <!--<div class="clear"></div>-->
+
+                  <div class="controlsTop">
+                    <div class="characterClassContainer flContainer">
+                      <span class="label FontinBold">角色職業</span>
+                      <div class="input-row">
+                        <div id="element-classStartPoint">
+                          <select name="classStartPoint" id="classStartPoint">
+                            <option value="1">野蠻人</option>
+                            <option value="2">遊俠</option>
+                            <option value="3" selected="selected">女巫</option>
+                            <option value="4">決鬥者</option>
+                            <option value="5">聖堂武僧</option>
+                            <option value="6">暗影刺客</option>
+                            <option value="0">貴族</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="ascendancyClassContainer" class="flContainer">
+                      <!--<span class="label FontinBold">Ascendancy</span>-->
+                      <div class="input-row">
+                        <div id="element-ascendancyClass">
+                          <select name="ascendancyClass" id="ascendancyClass">
+                            <option value="0">None</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="passiveSearchBoxContainer" class="passiveSearchBoxContainer flContainer">
+                      <span class="label FontinBold">搜尋</span>
+                      <div id="element-permaLink" class="text formTextInline">
+                        <input type="text" name="permaLink" id="passiveSearchBox" value="" class="textInput" placeholder="搜尋">
+                      </div>
+                    </div>
+
+                    <div id="permaLinkContainer" class="permaLinkContainer flContainer">
+                      <div class="label FontinBold">連結到此天賦</div>
+                      <div class="bbcodePermaLinkCont">
+                        <input type="checkbox" value="1" name="bbcodePermaLink" id="bbcodePermaLink" />BBCode
+                      </div>
+                      <div id="element-permaLink" class="text formTextInline">
+                        <input type="text" name="permaLink" id="permaLink" value="" class="textInput">
+                      </div>
+                    </div>
+
+                    <div id="buildNameContainer" class="buildNameContainer flContainer">
+                      <span class="label FontinBold">Build name</span>
+                      <div id="element-buildName" class="text formTextInline">
+                        <input type="text" name="buildName" id="buildName" value="" maxlength="100" class="textInput">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="controlsBottom">
+                    <div class="highlightSimilarNodesContainer">
+                      <input type="checkbox" value="1" name="highlightSimilarNodes" id="highlightSimilarNodes" />類似技能 </div>
+
+                    <div class="highlightShortestPathsContainer">
+                      <input type="checkbox" value="1" name="highlightShortestPaths" id="highlightShortestPaths" checked/>最短路徑 </div>
+
+                    <div class="buttonContainer">
+                      <input type="button" value="重置" class="button1 important" name="resetSkillTree" id="resetSkillTree" />
+                    </div>
+
+                    <div class="buttonContainer">
+                      <input type="button" value="匯入" name="importSkillTree" id="importSkillTree" class='button1 important'></input>
+                    </div>
+
+                  </div>
+
+                  <div class="clear"></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="clear"></div>
+      </div>
+      <!-- mainContainer -->
+    </div>
+  </div>
+  <div id="poe-popup-container"></div>
+  <style>
+    #sidebar {
+      display: block;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      bottom: 55px;
+      background: #111;
+      opacity: 0.8;
+      color: #ccc;
+      width: 400px;
+      z-index: 100;
+      overflow-y: auto;
+    }
+
+    .attrCat {
+      text-decoration: underline;
+      line-height: 32px;
+      text-align: center;
+    }
+
+    #sidebar-dock {
+      display: block;
+      position: absolute;
+      top: 0px;
+      left: 400px;
+      bottom: 55px;
+      background-color: #222;
+      opacity: 0.8;
+      color: #ccc;
+      height: 100%;
+      z-index: 100;
+      width: 20px;
+    }
+  </style>
+  <div id="sidebar-dock"></div>
+  <div id="sidebar" name="sidebar">
+    <div id="summary" name="summary"></div>
+  </div>
+
+  <script src="js/translate.zh_TW.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.5/require.min.js"></script>
+
+  <!-- <script src="js/main_2.2.1_4.min.js"></script> -->
+  <script type="text/javascript">
+    //<!--
+    window.momentLocale = 'zh_TW';
+    window.PoELocale = 'zh_TW';
+    require.config({
+      baseUrl: "http://52.77.132.170/pass",
+      paths: {
+        "main": "main_2.2.1_4.min"
+      }
+    });
+    require(["main"], function () {});
+    //-->
+  </script>
+
+  <script src="js/st_tw.js"></script>
+
+  <!-- <script src="js/PassiveSkillTree/PassiveSkillTree.js"></script> -->
+  <!-- <script src="js/PassiveSkillTree/PassiveSkillTreeControls.js"></script> -->
+  <script type="text/javascript">
+    //<!--
+
+    require(['main'], function () {
+      require(['PoE/PassiveSkillTree/PassiveSkillTreeControls'], function (PassiveSkillTreeControls) {
+
+        var opts = {
+          passiveSkillTreeData: passiveSkillTreeData,
+          ascClasses: ascClasses,
+          zoomLevels: passiveSkillTreeData.imageZoomLevels,
+          height: 767,
+          startClass: 3,
+          fullScreen: false
+        };
+        var treeControls = new PassiveSkillTreeControls(opts);
+      });
+    });
+    //-->
+  </script>
+  <script type="text/javascript">
+    //<!--
+
+    window.onerror = function (e, url, l) {
+      console.error("Error: " + e, url, l);
+    }; //-->
+  </script>
+</body>
+
+</html>
